@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glazy — Character Principles · Donut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #0A0A0A;
+  --black-pure: #000000;
+  --surface: #111111;
+  --surface2: #1A1A1A;
+  --surface3: #222222;
+  --white: #FFFAFA;
+  --white-dim: rgba(255,250,250,0.72);
+  --white-muted: rgba(255,250,250,0.42);
+  --white-faint: rgba(255,250,250,0.16);
+  --purple-deep: #2D1B4E;
+  --purple-mid: #5B3A8A;
+  --purple: #8B5CF6;
+  --purple-soft: #C4A9F0;
+  --purple-pale: #E8DCFF;
+  --border: rgba(255,250,250,0.08);
+  --border-purple: rgba(139,92,246,0.18);
+  --display: 'Space Grotesk', -apple-system, sans-serif;
+  --sans: 'Inter', -apple-system, sans-serif;
+  --mono: 'Space Mono', monospace;
+  --radius: 16px;
+  --radius-sm: 10px;
+  /* Restrained transitions */
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --duration: 400ms;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black-pure);
+  color: var(--white);
+  font-family: var(--sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 56px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0,0,0,0.78);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo img { height: 28px; width: auto; }
+.nav-logo-text {
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--white);
+}
+
+/* Desktop nav links */
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--white-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color var(--duration) var(--ease), opacity var(--duration) var(--ease);
+  opacity: 0.85;
+}
+.nav-links a:hover { color: var(--purple-soft); opacity: 1; }
+
+/* Hamburger button - hidden on desktop */
+.nav-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  position: relative;
+  z-index: 110;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--white-dim);
+  margin: 5px 0;
+  transition: transform var(--duration) var(--ease), opacity var(--duration) var(--ease);
+}
+.nav-hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.active span:nth-child(2) { opacity: 0; }
+.nav-hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile overlay menu */
+.nav-mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 99;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+.nav-mobile-overlay.open { display: flex; }
+.nav-mobile-overlay a {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--white-dim);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color var(--duration) var(--ease);
+}
+.nav-mobile-overlay a:hover { color: var(--purple-soft); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 120px 56px 80px;
+  position: relative;
+  overflow: hidden;
+  gap: 64px;
+}
+.hero-nebula {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 90% at 85% 50%, rgba(45,27,78,0.9) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 60% at 60% 80%, rgba(91,58,138,0.25) 0%, transparent 55%),
+    #000;
+}
+.hero-grid-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(139,92,246,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139,92,246,0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.hero-left { position: relative; z-index: 1; }
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--purple);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-eyebrow::before {
+  content: ''; width: 28px; height: 1px;
+  background: var(--purple); display: block;
+}
+.hero-name {
+  font-family: var(--display);
+  font-size: clamp(72px, 9vw, 120px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  margin-bottom: 32px;
+  background: linear-gradient(135deg, #FFFAFA 0%, #C4A9F0 55%, #8B5CF6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-desc {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--white-dim);
+  max-width: 420px;
+  margin-bottom: 40px;
+  line-height: 1.75;
+}
+.hero-quote {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--purple-pale);
+  padding: 18px 22px;
+  border-left: 2px solid var(--purple);
+  background: rgba(139,92,246,0.06);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  max-width: 440px;
+}
+.hero-right {
+  position: relative; z-index: 1;
+  display: flex; justify-content: flex-end; align-items: center;
+}
+.hero-asset-frame {
+  width: 380px; height: 560px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(139,92,246,0.2);
+  background: linear-gradient(170deg, rgba(45,27,78,0.55) 0%, rgba(10,10,10,0.85) 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 14px;
+  position: relative; overflow: hidden;
+}
+.hero-asset-frame::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(139,92,246,0.12) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-asset-frame img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+.asset-icon {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  border: 1px solid rgba(139,92,246,0.35);
+  display: flex; align-items: center; justify-content: center;
+}
+.asset-icon svg { opacity: 0.55; }
+.asset-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: rgba(196,169,240,0.4);
+  text-align: center;
+  line-height: 2;
+  text-transform: uppercase;
+}
+
+/* ── SECTION BASE ── */
+section { padding: 96px 56px; }
+.s-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--purple);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.s-title {
+  font-family: var(--display);
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  margin-bottom: 52px;
+}
+
+/* ══════════════════════════════════════════════
+   VISUAL TIER 1: SYSTEM CARD
+   Used for identity cards, pillar cards, d0 table
+   ══════════════════════════════════════════════ */
+
+/* ── IDENTITY ── */
+.identity-section { background: var(--surface); }
+
+.id-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 52px;
+}
+.id-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  transition: border-color var(--duration) var(--ease), opacity var(--duration) var(--ease);
+  opacity: 0.92;
+}
+.id-card:hover { border-color: var(--border-purple); opacity: 1; }
+.id-card-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--purple);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.id-card-text {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--white-dim);
+}
+.id-card-text strong { color: var(--white); font-weight: 600; }
+
+/* PILLARS */
+.pillars-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.pillar {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--duration) var(--ease), opacity var(--duration) var(--ease), transform var(--duration) var(--ease);
+  opacity: 0.92;
+}
+.pillar:hover { border-color: var(--border-purple); opacity: 1; transform: translateY(-1px); }
+.pillar-glow {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--purple), transparent);
+}
+.pillar-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(139,92,246,0.4);
+  letter-spacing: 0.1em;
+  margin-bottom: 18px;
+}
+.pillar-title {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.pillar-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--white-muted);
+}
+
+/* ══════════════════════════════════════════════
+   VISUAL TIER 2: EDITORIAL BLOCK
+   Used for 02 section - first principle per category
+   Magazine pull-quote style, large typography, breathing room
+   ══════════════════════════════════════════════ */
+
+.principles-section { background: var(--black); }
+.principles-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  align-items: start;
+  margin-bottom: 64px;
+}
+.principles-lead {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--white-dim);
+  max-width: 500px;
+}
+.principles-lead strong { color: var(--white); font-weight: 600; }
+.principles-index {
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 2;
+  color: var(--white-faint);
+}
+.principles-index span { color: var(--purple); }
+
+/* Category block wrapper */
+.principle-category {
+  margin-bottom: 80px;
+  position: relative;
+}
+.principle-category:last-child { margin-bottom: 0; }
+
+/* Category label with left bar */
+.cat-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  padding-left: 0;
+}
+.cat-label-bar {
+  width: 3px;
+  height: 28px;
+  background: var(--purple);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.cat-label-text {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  color: var(--purple);
+  text-transform: uppercase;
+}
+
+/* Editorial block - the first principle in each category */
+.editorial-block {
+  padding: 48px 0 40px 0;
+  border-top: 1px solid rgba(139,92,246,0.1);
+  border-bottom: 1px solid rgba(139,92,246,0.06);
+  margin-bottom: 28px;
+  position: relative;
+}
+.editorial-num {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: rgba(139,92,246,0.35);
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+.editorial-title {
+  font-family: var(--display);
+  font-size: clamp(22px, 2.2vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  color: var(--white);
+  max-width: 800px;
+  margin-bottom: 16px;
+}
+.editorial-desc {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--white-dim);
+  max-width: 640px;
+}
+
+/* Compact principle cards - remaining principles in each category */
+.compact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+}
+.p-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  transition: border-color var(--duration) var(--ease), opacity var(--duration) var(--ease);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0.88;
+}
+.p-card:hover {
+  border-color: var(--border-purple);
+  opacity: 1;
+}
+.p-card-top {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.p-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(139,92,246,0.45);
+  letter-spacing: 0.08em;
+}
+.p-cat {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--purple);
+  background: rgba(139,92,246,0.08);
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+.p-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  color: var(--white);
+}
+.p-desc {
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--white-muted);
+}
+
+/* ── VISUAL LANGUAGE ── */
+.visual-section { background: var(--surface); }
+
+.visual-top-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.v-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 30px;
+}
+.v-card-head {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--purple);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.v-card-title {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+.v-card-body {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--white-muted);
+}
+
+/* COLOR SWATCHES */
+.swatches { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.swatch { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+.sw-block { width: 44px; height: 44px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.07); }
+.sw-name {
+  font-family: var(--mono);
+  font-size: 11px; color: var(--white-muted);
+  letter-spacing: 0.06em; text-align: center; line-height: 1.4;
+}
+
+/* DO/DONT */
+.do-dont { margin-top: 16px; display: flex; flex-direction: column; gap: 6px; }
+.do-row, .dont-row {
+  font-size: 12px; line-height: 1.5;
+  padding: 8px 12px; display: flex; gap: 8px; align-items: flex-start;
+  border-radius: var(--radius-sm);
+}
+.do-row {
+  background: rgba(29,158,117,0.07);
+  border-left: 2px solid rgba(29,158,117,0.45);
+  color: var(--white-dim);
+}
+.dont-row {
+  background: rgba(226,75,74,0.06);
+  border-left: 2px solid rgba(226,75,74,0.38);
+  color: var(--white-muted);
+}
+.do-row .mk { color: #1D9E75; font-family: var(--mono); font-size: 11px; flex-shrink: 0; margin-top: 2px; }
+.dont-row .mk { color: #E24B4A; font-family: var(--mono); font-size: 11px; flex-shrink: 0; margin-top: 2px; }
+
+/* ══════════════════════════════════════════════
+   VISUAL TIER 3: ASSET FRAME
+   Used for 04 section - image gallery with distinct treatment
+   ══════════════════════════════════════════════ */
+
+.assets-section { background: var(--black); }
+.asset-tabs {
+  display: flex; gap: 8px; margin-bottom: 36px; flex-wrap: wrap;
+}
+.tab-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  padding: 8px 18px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--white-muted);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all var(--duration) var(--ease);
+  opacity: 0.85;
+}
+.tab-btn.active, .tab-btn:hover {
+  border-color: var(--purple);
+  color: var(--white);
+  background: rgba(139,92,246,0.1);
+  opacity: 1;
+}
+
+/* Asset gallery layout */
+.asset-gallery { display: none; }
+.asset-gallery.active { display: block; }
+
+.gallery-section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--purple);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(139,92,246,0.1);
+}
+
+/* Hero images row - large display */
+.hero-images-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 48px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+.hero-image-card {
+  flex: 1;
+  min-width: 200px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid rgba(139,92,246,0.12);
+  background: rgba(17,17,17,0.6);
+  position: relative;
+  transition: border-color var(--duration) var(--ease), opacity var(--duration) var(--ease);
+  opacity: 0.92;
+}
+.hero-image-card:hover { border-color: rgba(139,92,246,0.3); opacity: 1; }
+.hero-image-card img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+.hero-image-card .img-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--white-muted);
+  text-transform: uppercase;
+  padding: 12px 16px;
+  text-align: center;
+  background: rgba(10,10,10,0.7);
+}
+
+/* Separator between hero and aux */
+.gallery-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139,92,246,0.15), transparent);
+  margin: 8px 0 40px 0;
+}
+
+/* Auxiliary reference grid - smaller images */
+.aux-images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.aux-image-card {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid rgba(255,250,250,0.06);
+  background: rgba(17,17,17,0.4);
+  transition: border-color var(--duration) var(--ease), opacity var(--duration) var(--ease);
+  opacity: 0.85;
+}
+.aux-image-card:hover { border-color: rgba(139,92,246,0.2); opacity: 1; }
+.aux-image-card img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+.aux-image-card .img-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--white-faint);
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: center;
+}
+
+/* ── D0 SECTION ── */
+.d0-section { background: var(--surface); }
+.d0-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 48px;
+  align-items: center;
+}
+.d0-diagram {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  height: 340px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 10px;
+  position: relative; overflow: hidden;
+}
+.d0-glow-orb {
+  position: absolute;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(139,92,246,0.1) 0%, transparent 72%);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  pointer-events: none;
+}
+.d0-node {
+  padding: 12px 28px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  border: 1px solid rgba(139,92,246,0.35);
+  border-radius: var(--radius-sm);
+  color: var(--purple-soft);
+  z-index: 1;
+}
+.d0-connector {
+  font-family: var(--mono);
+  font-size: 18px;
+  color: rgba(139,92,246,0.3);
+  z-index: 1;
+}
+.d0-right h3 {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+.d0-table {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.d0-row-item {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  border-bottom: 1px solid var(--border);
+}
+.d0-row-item:last-child { border-bottom: none; }
+.d0-row-item:first-child { background: rgba(139,92,246,0.05); }
+.d0-col {
+  padding: 14px 20px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.d0-col:first-child {
+  border-right: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--purple-soft);
+  display: flex; align-items: center;
+}
+.d0-col:last-child { color: var(--white-muted); }
+.d0-col.header { color: var(--white); font-weight: 600; font-family: var(--sans); font-size: 13px; }
+
+/* ── FOOTER ── */
+footer {
+  padding: 40px 56px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-logo { display: flex; align-items: center; gap: 8px; }
+.footer-logo img { height: 22px; opacity: 0.4; }
+.footer-logo-text {
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  opacity: 0.4;
+}
+.footer-text {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(255,250,250,0.22);
+  letter-spacing: 0.15em;
+}
+.footer-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--purple);
+  letter-spacing: 0.15em;
+  border: 1px solid rgba(139,92,246,0.25);
+  padding: 5px 14px;
+  border-radius: 20px;
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════ */
+
+@media (max-width: 1100px) {
+  nav { padding: 0 24px; }
+  .hero { grid-template-columns: 1fr; padding: 100px 24px 64px; }
+  .hero-right { display: none; }
+  section { padding: 64px 24px; }
+  .id-cards, .pillars-row { grid-template-columns: 1fr 1fr; }
+  .compact-grid { grid-template-columns: 1fr 1fr; }
+  .visual-top-row { grid-template-columns: 1fr; }
+  .d0-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 16px; padding: 32px 24px; text-align: center; }
+}
+
+@media (max-width: 768px) {
+  /* Hamburger nav */
+  .nav-links { display: none; }
+  .nav-hamburger { display: block; }
+
+  nav { padding: 0 20px; }
+  section { padding: 48px 20px; }
+  .hero { padding: 88px 20px 48px; gap: 32px; }
+
+  .id-cards, .pillars-row { grid-template-columns: 1fr; }
+  .compact-grid { grid-template-columns: 1fr; }
+
+  .principles-header { grid-template-columns: 1fr; gap: 24px; }
+
+  .editorial-title { font-size: 20px; }
+  .editorial-desc { font-size: 14px; }
+
+  .hero-images-row { flex-direction: column; }
+  .hero-image-card { min-width: unset; }
+  .aux-images-grid { grid-template-columns: 1fr 1fr; }
+
+  .d0-grid { grid-template-columns: 1fr; }
+
+  footer { padding: 24px 20px; }
+}
+
+@media (max-width: 480px) {
+  .aux-images-grid { grid-template-columns: 1fr; }
+  .hero-name { font-size: 56px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="Donut Logo Color.png" alt="Donut Logo">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#identity">Identity</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#visual">Visual</a></li>
+    <li><a href="#assets">Assets</a></li>
+    <li><a href="#d0">Glazy × D0</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="nav-mobile-overlay" id="mobileNav">
+  <a href="#identity" onclick="closeMobileNav()">Identity</a>
+  <a href="#principles" onclick="closeMobileNav()">Principles</a>
+  <a href="#visual" onclick="closeMobileNav()">Visual</a>
+  <a href="#assets" onclick="closeMobileNav()">Assets</a>
+  <a href="#d0" onclick="closeMobileNav()">Glazy × D0</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-nebula"></div>
+  <div class="hero-grid-bg"></div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">DonutAI Character System · Brand Reference</div>
+    <h1 class="hero-name">Glazy</h1>
+    <p class="hero-desc">The personified intelligence of D0 — a proactive trading pilot defined by supreme calm, systems-level cognition, and zero tolerance for noise.</p>
+    <div class="hero-quote">
+      "She reads the entire market structure while others chase the move.<br>
+      Her silence is not absence — it is the weight of certainty."
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-asset-frame">
+      <img src="processed/anime-pose-peace-sign.png" alt="Glazy - Anime Peace Sign Pose" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'asset-icon\'><svg width=\'26\' height=\'26\' viewBox=\'0 0 26 26\' fill=\'none\'><circle cx=\'13\' cy=\'13\' r=\'11\' stroke=\'#8B5CF6\' stroke-width=\'1.5\'/><circle cx=\'13\' cy=\'9.5\' r=\'2.8\' stroke=\'#8B5CF6\' stroke-width=\'1.5\'/><path d=\'M7 21c0-3.314 2.686-6 6-6s6 2.686 6 6\' stroke=\'#8B5CF6\' stroke-width=\'1.5\'/></svg></div><div class=\'asset-tag\'>Glazy<br>Full Body · Main Pose<br>[Place processed/ folder alongside HTML]</div>';">
+    </div>
+  </div>
+</div>
+
+<!-- IDENTITY -->
+<section id="identity" class="identity-section">
+  <div class="s-tag">01 / Character Identity</div>
+  <h2 class="s-title">Who Glazy Is</h2>
+
+  <div class="id-cards">
+    <div class="id-card">
+      <div class="id-card-label">Core Definition</div>
+      <div class="id-card-text"><strong>Proactive &amp; Intelligent Trading Pilot.</strong> The human face of D0's machine cognition. She doesn't explain herself. She executes.</div>
+    </div>
+    <div class="id-card">
+      <div class="id-card-label">Archetype</div>
+      <div class="id-card-text">The <strong>quiet minority winner</strong> in a high-volatility world. The girl who lives her life while D0 guards her strategy — and never looks worried.</div>
+    </div>
+    <div class="id-card">
+      <div class="id-card-label">Her Opposite</div>
+      <div class="id-card-text">The liquidated player, the chart-chaser, the signal-follower who skips post-mortems. Glazy is everything they are not.</div>
+    </div>
+    <div class="id-card">
+      <div class="id-card-label">Brand Function</div>
+      <div class="id-card-text">When users remember Glazy, they remember D0's promise: <strong>less screen time, less hesitation, fewer mistakes, better execution.</strong></div>
+    </div>
+  </div>
+
+  <div class="s-tag">Character Pillars</div>
+  <div class="pillars-row">
+    <div class="pillar">
+      <div class="pillar-glow"></div>
+      <div class="pillar-num">P — 01</div>
+      <div class="pillar-title">Extreme Calm</div>
+      <div class="pillar-desc">Markets crash. Screens flash. Others spiral. She doesn't. Rationality always outranks emotion — and it shows in every frame.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-glow" style="background: linear-gradient(90deg, #7B61FF, transparent)"></div>
+      <div class="pillar-num">P — 02</div>
+      <div class="pillar-title">Systems Intelligence</div>
+      <div class="pillar-desc">She sees volume, funding, momentum, risk, sizing, and exit — simultaneously. The full causal chain at once, not just a signal.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-glow" style="background: linear-gradient(90deg, #5B3A8A, transparent)"></div>
+      <div class="pillar-num">P — 03</div>
+      <div class="pillar-title">Zero Redundancy</div>
+      <div class="pillar-desc">One touch. One look. One decision. Every action lands on first attempt. She never repeats herself — in motion or in speech.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-glow" style="background: linear-gradient(90deg, #C4A9F0, transparent)"></div>
+      <div class="pillar-num">P — 04</div>
+      <div class="pillar-title">High-Altitude View</div>
+      <div class="pillar-desc">She stands above the system, reading the whole board. The market moves for her — she doesn't move for the market.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES — Editorial Magazine Layout -->
+<section id="principles" class="principles-section">
+  <div class="s-tag">02 / The 20 Principles</div>
+  <h2 class="s-title">Rules That Define Her</h2>
+
+  <div class="principles-header">
+    <div class="principles-lead">
+      These 20 principles govern every piece of content Glazy appears in — from a 6-second clip to a brand campaign.
+      <strong>They are non-negotiable.</strong> When in doubt: would a precision instrument do this?
+    </div>
+    <div class="principles-index">
+      <span>IDENTITY</span> · 01–05<br>
+      <span>LANGUAGE</span> · 06–09<br>
+      <span>VISUAL</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;· 10–14<br>
+      <span>MOTION</span>&nbsp;&nbsp;&nbsp;&nbsp;· 15–17<br>
+      <span>EMOTION</span>&nbsp;&nbsp;&nbsp;· 18–20
+    </div>
+  </div>
+
+  <!-- ─── IDENTITY 01-05 ─── -->
+  <div class="principle-category">
+    <div class="cat-label">
+      <div class="cat-label-bar"></div>
+      <div class="cat-label-text">Identity · 01–05</div>
+    </div>
+
+    <div class="editorial-block">
+      <div class="editorial-num">01</div>
+      <div class="editorial-title">She is D0's personality, not D0's mascot.</div>
+      <div class="editorial-desc">Every ounce of her charm must flow back to product trust — not character fandom. She exists to make D0 credible, not to be a collectible.</div>
+    </div>
+
+    <div class="compact-grid">
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">02</span><span class="p-cat">Identity</span></div>
+        <div class="p-title">She never explains herself.</div>
+        <div class="p-desc">Her confidence is self-evident. The moment she starts explaining, she loses authority.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">03</span><span class="p-cat">Identity</span></div>
+        <div class="p-title">Calm is her loudest statement.</div>
+        <div class="p-desc">Stillness is power. Her calm is visible proof she's already processed what others haven't seen yet.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">04</span><span class="p-cat">Identity</span></div>
+        <div class="p-title">She is the minority who wins quietly.</div>
+        <div class="p-desc">She doesn't gloat or announce. She simply continues. The market proved her right — that is enough.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">05</span><span class="p-cat">Identity</span></div>
+        <div class="p-title">Her attractiveness serves precision, not spectacle.</div>
+        <div class="p-desc">Visual appeal must always read as "dangerous accuracy." Sexiness without strategic framing turns her into decoration.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── LANGUAGE 06-09 ─── -->
+  <div class="principle-category">
+    <div class="cat-label">
+      <div class="cat-label-bar"></div>
+      <div class="cat-label-text">Language · 06–09</div>
+    </div>
+
+    <div class="editorial-block">
+      <div class="editorial-num">06</div>
+      <div class="editorial-title">Short sentences. No filler. Every word is a result or action.</div>
+      <div class="editorial-desc">"Position closed." "Confirmed." "Strategy holding." Never multi-clause hedged explanations. Her language is the verbal equivalent of a single decisive tap.</div>
+    </div>
+
+    <div class="compact-grid">
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">07</span><span class="p-cat">Language</span></div>
+        <div class="p-title">High information density in one line.</div>
+        <div class="p-desc">One sentence carries: judgment, evidence, and direction. She doesn't use three when one does the job.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">08</span><span class="p-cat">Language</span></div>
+        <div class="p-title">Emotion surfaces only at completion.</div>
+        <div class="p-desc">A faint exhale. A corner of a mouth rising. Only when the trade is done — rare enough to feel earned.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">09</span><span class="p-cat">Language</span></div>
+        <div class="p-title">She makes not following her feel dangerous.</div>
+        <div class="p-desc">Not through threat — through implication. Ignoring a trading system's rules is the only real risk.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── VISUAL 10-14 ─── -->
+  <div class="principle-category">
+    <div class="cat-label">
+      <div class="cat-label-bar"></div>
+      <div class="cat-label-text">Visual · 10–14</div>
+    </div>
+
+    <div class="editorial-block">
+      <div class="editorial-num">10</div>
+      <div class="editorial-title">Cold intelligence blue is her anchor color.</div>
+      <div class="editorial-desc">Earpiece glow, interface light, data highlights — always cold blue. This constant persists across all formats and environments. It is the chromatic signature of her cognition.</div>
+    </div>
+
+    <div class="compact-grid">
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">11</span><span class="p-cat">Visual</span></div>
+        <div class="p-title">She is always the axis of the frame.</div>
+        <div class="p-desc">Whether centered or at the golden ratio, the visual order must feel defined by her presence — not placed around her.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">12</span><span class="p-cat">Visual</span></div>
+        <div class="p-title">Minimal expression. Maximum eyes.</div>
+        <div class="p-desc">Her face moves as little as possible. When it does, eyes lead. A gaze shift carries the weight of a speech.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">13</span><span class="p-cat">Visual</span></div>
+        <div class="p-title">Environment chaos; Glazy stable.</div>
+        <div class="p-desc">Screens flicker, markets pulse. She is the only fixed element. That contrast creates the "axis of the universe" effect.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">14</span><span class="p-cat">Visual</span></div>
+        <div class="p-title">Data flows through her, not at her.</div>
+        <div class="p-desc">Data moves from the world into her — she reads it. She is never overwhelmed by it.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MOTION 15-17 ─── -->
+  <div class="principle-category">
+    <div class="cat-label">
+      <div class="cat-label-bar"></div>
+      <div class="cat-label-text">Motion · 15–17</div>
+    </div>
+
+    <div class="editorial-block">
+      <div class="editorial-num">15</div>
+      <div class="editorial-title">Every action lands first attempt. No hesitation.</div>
+      <div class="editorial-desc">A tap, a head turn, a glance — each happens once, decisively, and completes. Repeated movement breaks character. She is a precision instrument, not an organic impulse.</div>
+    </div>
+
+    <div class="compact-grid">
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">16</span><span class="p-cat">Motion</span></div>
+        <div class="p-title">Breath pauses on head turns and eye raises.</div>
+        <div class="p-desc">Movement arrives with a micro-pause, as if loading precision before completing. This gives the "precision instrument" feel.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">17</span><span class="p-cat">Motion</span></div>
+        <div class="p-title">Low frame rate signals mechanical intelligence.</div>
+        <div class="p-desc">8–12fps in animation is not a budget constraint — it's deliberate. She moves like precise machinery, not organic impulse.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── EMOTION 18-20 ─── -->
+  <div class="principle-category">
+    <div class="cat-label">
+      <div class="cat-label-bar"></div>
+      <div class="cat-label-text">Emotion · 18–20</div>
+    </div>
+
+    <div class="editorial-block">
+      <div class="editorial-num">18</div>
+      <div class="editorial-title">She has emotions — compressed behind judgment.</div>
+      <div class="editorial-desc">Glazy is not cold by emptiness. She feels — but only after the decision is complete. Reverse this order and she becomes weak. The compression is the character.</div>
+    </div>
+
+    <div class="compact-grid">
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">19</span><span class="p-cat">Emotion</span></div>
+        <div class="p-title">Her protection is anticipation, not comfort.</div>
+        <div class="p-desc">She doesn't soothe — she prevents. She sees risk before it arrives. Her care language: "already handled."</div>
+      </div>
+      <div class="p-card">
+        <div class="p-card-top"><span class="p-num">20</span><span class="p-cat">Emotion</span></div>
+        <div class="p-title">The contrast IS the character: built as a tool, understands more than humans.</div>
+        <div class="p-desc">Never resolve the tension between "designed instrument" and "surpassing human comprehension." It's the source of her appeal.</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- VISUAL LANGUAGE -->
+<section id="visual" class="visual-section">
+  <div class="s-tag">03 / Visual Language</div>
+  <h2 class="s-title">How She Looks</h2>
+
+  <div class="visual-top-row">
+    <div class="v-card">
+      <div class="v-card-head">Color Anchors</div>
+      <div class="v-card-title">Cold + Purple + Skin</div>
+      <div class="v-card-body">Everyday environments use cold ambient light, skin tone, and purple as the intelligence signal. High-volatility scenes may introduce color bursts — but she always stays cold.</div>
+      <div class="swatches">
+        <div class="swatch"><div class="sw-block" style="background:#A8D8EA;"></div><div class="sw-name">INTEL<br>BLUE</div></div>
+        <div class="swatch"><div class="sw-block" style="background:#8B5CF6;"></div><div class="sw-name">PURPLE<br>GLOW</div></div>
+        <div class="swatch"><div class="sw-block" style="background:#E8C9A0;"></div><div class="sw-name">SKIN<br>WARM</div></div>
+        <div class="swatch"><div class="sw-block" style="background:#0A0A0A; border-color: rgba(255,255,255,0.12);"></div><div class="sw-name">VOID<br>BLACK</div></div>
+        <div class="swatch"><div class="sw-block" style="background:#2D1B4E;"></div><div class="sw-name">DEEP<br>NEBULA</div></div>
+      </div>
+    </div>
+
+    <div class="v-card">
+      <div class="v-card-head">Camera Logic</div>
+      <div class="v-card-title">Wide · Mid · Close</div>
+      <div class="v-card-body">Wide: her as the still anchor in a moving world. Mid: control relationship with environment. Close: minimal expression, maximum eye weight.</div>
+      <div class="do-dont">
+        <div class="do-row"><span class="mk">DO</span>Low-angle shots that create scale and verticality</div>
+        <div class="do-row"><span class="mk">DO</span>Symmetric framing with geometric, industrial architecture</div>
+        <div class="dont-row"><span class="mk">NO</span>Handheld shaky cam implying emotional instability</div>
+        <div class="dont-row"><span class="mk">NO</span>Off-axis placement without deliberate compositional reason</div>
+      </div>
+    </div>
+
+    <div class="v-card">
+      <div class="v-card-head">Absolute Rules</div>
+      <div class="v-card-title">Do's &amp; Don'ts</div>
+      <div class="v-card-body">Applies to all content: social, product, campaigns, animation.</div>
+      <div class="do-dont">
+        <div class="do-row"><span class="mk">DO</span>Let the environment move while she stays still</div>
+        <div class="do-row"><span class="mk">DO</span>Use silence and pause as active storytelling tools</div>
+        <div class="do-row"><span class="mk">DO</span>Show data as something she reads — not reacts to</div>
+        <div class="dont-row"><span class="mk">NO</span>Glazy panicking, second-guessing, or uncertain</div>
+        <div class="dont-row"><span class="mk">NO</span>Loud, excited, or enthusiastic expressions</div>
+        <div class="dont-row"><span class="mk">NO</span>Using her as visual decoration without behavioral intent</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ASSET GALLERY — Redesigned with real images -->
+<section id="assets" class="assets-section">
+  <div class="s-tag">04 / Design Assets</div>
+  <h2 class="s-title">Three Forms of Glazy</h2>
+
+  <div class="asset-tabs">
+    <button class="tab-btn active" onclick="showAssets('anime')">Anime Version</button>
+    <button class="tab-btn" onclick="showAssets('live')">Live Action Version</button>
+    <button class="tab-btn" onclick="showAssets('chibi')">Chibi Version</button>
+  </div>
+
+  <!-- ANIME TAB -->
+  <div id="gallery-anime" class="asset-gallery active">
+    <div class="gallery-section-label">Hero Images — Three-View Reference</div>
+    <div class="hero-images-row">
+      <div class="hero-image-card">
+        <img src="processed/anime-front-view.jpg" alt="Anime Front View" onerror="this.parentElement.style.minHeight='320px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none'; this.insertAdjacentHTML('afterend','<div style=\'display:flex;align-items:center;justify-content:center;height:320px;color:var(--white-faint);font-family:var(--mono);font-size:11px;\'>Image not found</div>');">
+        <div class="img-label">Front View</div>
+      </div>
+      <div class="hero-image-card">
+        <img src="processed/anime-side-view.jpg" alt="Anime Side View" onerror="this.parentElement.style.minHeight='320px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none'; this.insertAdjacentHTML('afterend','<div style=\'display:flex;align-items:center;justify-content:center;height:320px;color:var(--white-faint);font-family:var(--mono);font-size:11px;\'>Image not found</div>');">
+        <div class="img-label">Side View</div>
+      </div>
+      <div class="hero-image-card">
+        <img src="processed/anime-back-view.jpg" alt="Anime Back View" onerror="this.parentElement.style.minHeight='320px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none'; this.insertAdjacentHTML('afterend','<div style=\'display:flex;align-items:center;justify-content:center;height:320px;color:var(--white-faint);font-family:var(--mono);font-size:11px;\'>Image not found</div>');">
+        <div class="img-label">Back View</div>
+      </div>
+    </div>
+
+    <div class="gallery-section-label">Hero Images — Signature Poses</div>
+    <div class="hero-images-row" style="max-width: 640px;">
+      <div class="hero-image-card">
+        <img src="processed/anime-pose-peace-sign.png" alt="Anime Peace Sign Pose" onerror="this.parentElement.style.minHeight='320px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Peace Sign</div>
+      </div>
+      <div class="hero-image-card">
+        <img src="processed/anime-pose-resting.png" alt="Anime Resting Pose" onerror="this.parentElement.style.minHeight='320px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Resting</div>
+      </div>
+    </div>
+
+    <div class="gallery-divider"></div>
+
+    <div class="gallery-section-label">Auxiliary Reference — Character Sheets &amp; Expressions</div>
+    <div class="aux-images-grid">
+      <div class="aux-image-card">
+        <img src="processed/anime-character-sheet-full.png" alt="Full Character Sheet" onerror="this.parentElement.style.minHeight='200px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Full Character Sheet</div>
+      </div>
+      <div class="aux-image-card">
+        <img src="processed/anime-character-sheet-3view-section.png" alt="Three-View Section" onerror="this.parentElement.style.minHeight='200px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Three-View Section</div>
+      </div>
+      <div class="aux-image-card">
+        <img src="processed/anime-gesture-expression-sheet.png" alt="Gesture & Expression Sheet" onerror="this.parentElement.style.minHeight='200px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Gesture &amp; Expression</div>
+      </div>
+      <div class="aux-image-card">
+        <img src="processed/anime-in-action-sheet.png" alt="In-Action Sheet" onerror="this.parentElement.style.minHeight='200px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">In-Action Sheet</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE ACTION TAB -->
+  <div id="gallery-live" class="asset-gallery">
+    <div class="gallery-section-label">Hero Images — Four-View Reference</div>
+    <div class="hero-images-row">
+      <div class="hero-image-card">
+        <img src="processed/real-front-view.png" alt="Real Front View" onerror="this.parentElement.style.minHeight='320px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Front View</div>
+      </div>
+      <div class="hero-image-card">
+        <img src="processed/real-left-side-view.png" alt="Real Left Side View" onerror="this.parentElement.style.minHeight='320px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Left Side</div>
+      </div>
+      <div class="hero-image-card">
+        <img src="processed/real-right-side-view.png" alt="Real Right Side View" onerror="this.parentElement.style.minHeight='320px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Right Side</div>
+      </div>
+      <div class="hero-image-card">
+        <img src="processed/real-back-view.png" alt="Real Back View" onerror="this.parentElement.style.minHeight='320px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Back View</div>
+      </div>
+    </div>
+
+    <div class="gallery-divider"></div>
+
+    <div class="gallery-section-label">Auxiliary Reference — Multi-View &amp; Vibe</div>
+    <div class="aux-images-grid">
+      <div class="aux-image-card">
+        <img src="processed/real-multiview-sheet.png" alt="Multi-View Sheet" onerror="this.parentElement.style.minHeight='200px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Multi-View Sheet</div>
+      </div>
+      <div class="aux-image-card">
+        <img src="processed/real-vibe-cosplay.jpg" alt="Cosplay Vibe" onerror="this.parentElement.style.minHeight='200px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Cosplay Vibe</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHIBI TAB -->
+  <div id="gallery-chibi" class="asset-gallery">
+    <div class="gallery-section-label">Hero Images — Signature Chibi Poses</div>
+    <div class="hero-images-row" style="max-width: 640px;">
+      <div class="hero-image-card">
+        <img src="processed/chibi-pose-peace-sign.png" alt="Chibi Peace Sign" onerror="this.parentElement.style.minHeight='320px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Peace Sign</div>
+      </div>
+      <div class="hero-image-card">
+        <img src="processed/chibi-pose-surprised.png" alt="Chibi Surprised" onerror="this.parentElement.style.minHeight='320px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Surprised</div>
+      </div>
+    </div>
+
+    <div class="gallery-divider"></div>
+
+    <div class="gallery-section-label">Auxiliary Reference — Additional Poses</div>
+    <div class="aux-images-grid">
+      <div class="aux-image-card">
+        <img src="processed/chibi-pose-heart.png" alt="Chibi Heart" onerror="this.parentElement.style.minHeight='200px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Heart Pose</div>
+      </div>
+      <div class="aux-image-card">
+        <img src="processed/chibi-pose-jumping.png" alt="Chibi Jumping" onerror="this.parentElement.style.minHeight='200px'; this.parentElement.style.background='var(--surface2)'; this.style.display='none';">
+        <div class="img-label">Jumping</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- D0 RELATION -->
+<section id="d0" class="d0-section">
+  <div class="s-tag">05 / Glazy × D0</div>
+  <h2 class="s-title">The System Relationship</h2>
+
+  <div class="d0-grid">
+    <div class="d0-diagram">
+      <div class="d0-glow-orb"></div>
+      <div class="d0-node" style="background: rgba(139,92,246,0.07);">GLAZY &nbsp;·&nbsp; The Face</div>
+      <div class="d0-connector">⇅</div>
+      <div class="d0-node" style="background: rgba(91,58,138,0.1);">D0 &nbsp;·&nbsp; The Engine</div>
+    </div>
+    <div class="d0-right">
+      <h3>One System.<br>Two Layers.</h3>
+      <div class="d0-table">
+        <div class="d0-row-item">
+          <div class="d0-col header">D0 Function</div>
+          <div class="d0-col header" style="color: var(--purple-soft);">Glazy Expression</div>
+        </div>
+        <div class="d0-row-item">
+          <div class="d0-col">Active monitoring</div>
+          <div class="d0-col">High-altitude perspective — she reads the whole board</div>
+        </div>
+        <div class="d0-row-item">
+          <div class="d0-col">Systems judgment</div>
+          <div class="d0-col">Systems-level intelligence — the full causal chain at once</div>
+        </div>
+        <div class="d0-row-item">
+          <div class="d0-col">Decisive execution</div>
+          <div class="d0-col">Maximum efficiency — one touch, one decision, complete</div>
+        </div>
+        <div class="d0-row-item">
+          <div class="d0-col">Risk protection</div>
+          <div class="d0-col">Extreme calm — the guard is set before you even asked</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="Donut Logo Color.png" alt="Donut Logo">
+  </div>
+  <div class="footer-text">GLAZY CHARACTER PRINCIPLES · INTERNAL BRAND REFERENCE</div>
+  <div class="footer-badge">V 2.0 · 2026</div>
+</footer>
+
+<script>
+// Tab switching for asset gallery
+function showAssets(tab) {
+  // Update buttons
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.classList.remove('active');
+  });
+  event.currentTarget.classList.add('active');
+
+  // Update galleries
+  document.querySelectorAll('.asset-gallery').forEach(function(g) {
+    g.classList.remove('active');
+  });
+  var target = document.getElementById('gallery-' + tab);
+  if (target) target.classList.add('active');
+}
+
+// Mobile nav
+function toggleMobileNav() {
+  var overlay = document.getElementById('mobileNav');
+  var hamburger = document.querySelector('.nav-hamburger');
+  overlay.classList.toggle('open');
+  hamburger.classList.toggle('active');
+  document.body.style.overflow = overlay.classList.contains('open') ? 'hidden' : '';
+}
+
+function closeMobileNav() {
+  var overlay = document.getElementById('mobileNav');
+  var hamburger = document.querySelector('.nav-hamburger');
+  overlay.classList.remove('open');
+  hamburger.classList.remove('active');
+  document.body.style.overflow = '';
+}
+</script>
+
+</body>
+</html>
